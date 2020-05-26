@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>购物车</title>
+    <style>
+      .active {
+        background-color: #ddd;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <!-- <h2 v-bind:title="title">
+        {{title}}
+      </h2>
+      <div
+        v-for="item in courses"
+        :key="item"
+        :class="{active: selectedCourse === item}"
+        @click="selectedCourse = item"
+        :style="{backgroundColor:selectedCourse === item?'#ddd':''}"
+      >
+        {{ item }}
+      </div>
+      <p>
+        <input type="text" v-model="course" v-on:keydown.enter="addCource" />
+      </p> -->
+    </div>
+    <script src="vue.js"></script>
+    <script>
+      const app = new Vue({
+        el: "#app",
+        data() {
+          return {
+            selectedCourse: "",
+            title: "购物车",
+            course: "",
+            courses: ["web全栈", "web高级"],
+          };
+        },
+        methods: {
+          addCource() {
+            this.courses.push(this.course);
+            this.course = "";
+          },
+        },
+        render(h) {
+          // (function anonymous() {
+          with (this) {
+            return _c(
+              "div",
+              { attrs: { id: "app" } },
+              [
+                _c("h2", { attrs: { title: title } }, [
+                  _v("\n        " + _s(title) + "\n      "),
+                ]),
+                _v(" "),
+                _l(courses, function (item) {
+                  return _c(
+                    "div",
+                    {
+                      key: item,
+                      class: { active: selectedCourse === item },
+                      style: {
+                        backgroundColor: selectedCourse === item ? "#ddd" : "",
+                      },
+                      on: {
+                        click: function ($event) {
+                          selectedCourse = item;
+                        },
+                      },
+                    },
+                    [_v("\n        " + _s(item) + "\n      ")]
+                  );
+                }),
+                _v(" "),
+                _c("p", [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: course,
+                        expression: "course",
+                      },
+                    ],
+                    attrs: { type: "text" },
+                    domProps: { value: course },
+                    on: {
+                      keydown: function ($event) {
+                        if (
+                          !$event.type.indexOf("key") &&
+                          _k($event.keyCode, "enter", 13, $event.key, "Enter")
+                        )
+                          return null;
+                        return addCource($event);
+                      },
+                      input: function ($event) {
+                        if ($event.target.composing) return;
+                        course = $event.target.value;
+                      },
+                    },
+                  }),
+                ]),
+              ],
+              2
+            );
+          }
+          // });
+        },
+      });
+      setTimeout(() => {
+        app.title = "购物车aaa";
+      }, 1000);
+      console.log(app.$options.render);
+    </script>
+  </body>
+</html>

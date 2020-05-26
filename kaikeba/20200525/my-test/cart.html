@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>购物车</title>
+    <style>
+      .active {
+        background-color: #ddd;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <h2 v-bind:title="title">
+        {{title}}
+      </h2>
+      <!-- 列表渲染 -->
+      <div
+        v-for="item in courses"
+        :key="item"
+        :class="{active: selectedCourse === item}"
+        @click="selectedCourse = item"
+        :style="{backgroundColor:selectedCourse === item?'#ddd':''}"
+      >
+        {{ item }}
+      </div>
+      <p>
+        <input type="text" v-model="course" v-on:keydown.enter="addCource" />
+      </p>
+
+      <p>
+        课程总数:{{total}} 课程总数:{{totalCount}}
+      </p>
+    </div>
+    <script src="vue.js"></script>
+    <script>
+      const app = new Vue({
+        el: "#app",
+        data() {
+          return {
+            selectedCourse: "",
+            title: "购物车",
+            course: "",
+            totalCount: 0,
+            courses: [],
+          };
+        },
+        watch: {
+          courses: {
+            immediate: true,
+            deep: true,
+            handler(newValue, oldValue) {
+              this.totalCount = newValue.length;
+            },
+          },
+        },
+        computed: {
+          total() {
+            // 缓存性
+            return this.courses.length;
+          },
+        },
+        async created() {
+          const courses = await this.getCourse();
+          this.courses = courses;
+        },
+        mounted() {},
+        methods: {
+          getCourse(params) {
+            return new Promise((resolve) => {
+              setTimeout(() => {
+                resolve(["web全栈", "web高级"]);
+              }, 2000);
+            });
+          },
+          addCource() {
+            this.courses.push(this.course);
+            this.course = "";
+          },
+        },
+      });
+      setTimeout(() => {
+        app.title = "购物车aaa";
+      }, 1000);
+    </script>
+  </body>
+</html>
